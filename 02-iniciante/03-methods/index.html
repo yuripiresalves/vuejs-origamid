@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="./vue.js"></script>
+    <title>Vue.js</title>
+  </head>
+  <body>
+    <div id="app">
+      <button @click="getData">Ver dados</button>
+      <p>Latest Price: {{dados.latestPrice}}</p>
+      <p>Latest Time: {{dados.latestTime}}</p>
+      <p>Company Name: {{dados.companyName}}</p>
+    </div>
+
+    <script>
+      const vm = new Vue({
+        el: '#app',
+        data: {
+          dados: {},
+        },
+        methods: {
+          async getData() {
+            const response = await fetch(
+              'https://cloud.iexapis.com/stable/stock/aapl/quote?token=sk_a4bc565f68444c1d88b09265a197bc34'
+            );
+            const json = await response.json();
+            this.dados = json;
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
