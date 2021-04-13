@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="./vue.js"></script>
+    <title>Vue.js</title>
+  </head>
+  <body>
+    <style>
+      .green {
+        color: green;
+      }
+      .red {
+        color: red;
+      }
+    </style>
+
+    <div id="app">
+      <button @click="getData">Ver dados</button>
+      <p :class="dadosAapl.marketCap > dadosGoogl.marketCap ? 'green' : 'red'">
+        {{dadosAapl.companyName}}
+      </p>
+      <span>{{dadosAapl.marketCap}}</span>
+
+      <p :class="dadosGoogl.marketCap > dadosAapl.marketCap ? 'green' : 'red'">
+        {{dadosGoogl.companyName}}
+      </p>
+      <span>{{dadosGoogl.marketCap}}</span>
+    </div>
+
+    <script>
+      const vm = new Vue({
+        el: '#app',
+        data: {
+          dadosAapl: {},
+          dadosGoogl: {},
+        },
+        methods: {
+          async getData() {
+            const responseAapl = await fetch(
+              'https://cloud.iexapis.com/stable/stock/aapl/quote?token=sk_a4bc565f68444c1d88b09265a197bc34'
+            );
+            const jsonAapl = await responseAapl.json();
+            this.dadosAapl = jsonAapl;
+
+            const responseGoogl = await fetch(
+              'https://cloud.iexapis.com/stable/stock/googl/quote?token=sk_a4bc565f68444c1d88b09265a197bc34'
+            );
+            const jsonGoogl = await responseGoogl.json();
+            this.dadosGoogl = jsonGoogl;
+          },
+        },
+      });
+
+      // 'https://cloud.iexapis.com/stable/stock/aapl/quote?token=sk_a4bc565f68444c1d88b09265a197bc34'
+    </script>
+  </body>
+</html>
